@@ -17,7 +17,7 @@ use Illuminate\Mail\PendingMail;
 //require "../../vendor/sendgrid/autoload.php";
 
 class EmailDispatcher{
-
+    
     private $content = '';
     private $plainContent = '';
     private $userDetails = [];
@@ -46,7 +46,7 @@ class EmailDispatcher{
 		//print_r($pendingMails->get());exit;
         if ($pendingMails->count() > 0 ){
             foreach ($pendingMails->get() as $pendingMail){
-
+               
                 $user = Enrollment::where('loyalty_number', $pendingMail->enrolment_id)->first();
                 if (!empty($user)){
                 $recipient = trim($user->email);
@@ -56,28 +56,28 @@ class EmailDispatcher{
                     $count++;
                     array_push($array_of_response, array("completed $count mails $snd_mail"));
                // }
-
+                 
                 }
-
+                
             }
             }else{
-
+               
             array_push($array_of_response, array("no pending mails."));
         }
         return $array_of_response;
-
-
-
+  
+        
+        
     }
 
     public static function unPendMail($pendingMailID){
         $tries = PendingEmails::find($pendingMailID);
         PendingEmails::where('id', $pendingMailID)->update(['status'=>1, 'tries'=>$tries->tries + 1]);
     }
-
+    
     // public function Dispatch
-      public static function sendMail($mail_subject, $mail_body, $recipient){
-
+      public static function sendMail($mail_subject, $mail_body, $recipient){  
+      
         $data = array(
          "subject"=>$mail_subject, "to"=>$recipient, "email" => $recipient, "body"=>$mail_body);
         $mail_sent_response =   self::testCurl(http_build_query($data));
@@ -85,20 +85,20 @@ class EmailDispatcher{
             return 0;
         }
          return 1;
-
+    
     }
 
 
     public static function sendInfoBip(){
-
+        
         //
-
-
-    }
+        
+        
+    } 
 
 
     /* Email Migration Code*/
-
+    
     public static function pendMails($customer_ref, $subject, $body, $from){
         if($subject != null){
             $new_record['suject'] = $subject;
@@ -121,19 +121,19 @@ class EmailDispatcher{
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+ 
    <style>
-
+       
         *{
             margin:0;
             padding:0;
             box-sizing: border-box;
-
+            
         }
 
         body{
-
-            font-family: "Inter", sans-serif, serif;
+            
+            font-family: "Inter", sans-serif, serif; 
         }
 
         .overall-template-container{
@@ -147,19 +147,19 @@ class EmailDispatcher{
             height: auto;
             padding: 0;
             margin: 0;
-
+            
         }
 
 
         #email-header-imgCon{
-
+           
             height: 100%;
             width:100%;
             margin: auto;
         }
 
         .overall-template-container>img:first-child{
-
+        
             display: -webkit-box;
             margin-left: auto;
         }
@@ -182,7 +182,7 @@ class EmailDispatcher{
             padding: 0px 20px;
         }
 
-
+        
         #template-name-area{
             padding: 15px 0;
         }
@@ -206,7 +206,7 @@ class EmailDispatcher{
         .table-wrapper{
              margin-bottom: 50px;
              overflow:auto;
-
+        
         }
 
         #voucher-redeem-table{
@@ -217,11 +217,11 @@ class EmailDispatcher{
             margin-right: 0px;
             padding: 0px;
             margin-bottom: 15px;
-
+        
         }
-
+               
          #first-row{
-            border-bottom: 2px solid !important;
+            border-bottom: 2px solid !important;         
           }
 
          #voucher-redeem-table thead{
@@ -232,7 +232,7 @@ class EmailDispatcher{
              background-color: #F1F5F9;
         }
 
-
+        
        #voucher-redeem-table td,
         #voucher-redeem-table th{
             padding: 10px 10px;
@@ -351,7 +351,7 @@ class EmailDispatcher{
            text-align: center;
            margin: 10px 0;
        }
-
+       
        #single-might-item>b{
            align-self: center;
        }
@@ -374,30 +374,30 @@ class EmailDispatcher{
        .left-align{
            text-align: left;
        }
-
+      
         .right-align{
            text-align: right;
        }
 
 
         @media(max-width:1440px){
-
+          
         }
 
         @media(max-width:1024px){
-
+       
             #email-header-imgCon>img{
                 object-fit: contain;
             }
-
+            
         }
 
         @media(max-width:900px){
-
+         
         }
-
+   
         @media (max-width: 500px){
-
+          
 
             #email-header-imgCon{
                 height: 100%;
@@ -423,44 +423,45 @@ class EmailDispatcher{
         @media (max-width: 400px){
 
         }
-
+        
         @media (max-width: 320px){
 
-
+        
         }
     </style>
 
 </head>
 <body>
     <div class="overall-template-container">
-
+   
                 <img id="template-header-img" src="https://loyaltysolutionsnigeria.com/fbn_templates/images/fb_logo.png" alt=""/><br>
-
+     
                 <img id="template-banner-img" src="https://loyaltysolutionsnigeria.com/fbn_templates/images/enrollment.png" alt>
-
+       
         <section id="message-content">
 
             <div id="template-name-area">
                 <p>Dear $first_name $Last_name ($membership_id)</p>
             <p>We are excited to announce the launch of our new Customer Loyalty Program FirstBank Rewards brought to you by FirstBank. We have lots of exciting and exclusive rewards to say ‘Thank You’ for your continuous patronage. </p>
        <p>The FirstBank Rewards allows you to earn loyalty points called FirstCoin, enjoy discounts from various merchants across the country, and many more benefits.</p>
+<p>Please note that your item(s) would be shipped to the indicated address within 15 working days for delivery.</p>
 <p>This is our way of saying thank you for your loyalty. Every time you use your card, e-channel, or any of our platforms, you will earn points that can be redeemed as shopping vouchers, movie tickets, and much more. </p>
 <p>You can access your loyalty account when you log in to your FirstMobile App or FirstOnline.. You can also use the dedicated portal <a href="$link" style="text-decoration:none;">here</a> to access your loyalty account, to log in, kindly use the details below.</p>
 <p>Username - $membership_id </p>
 <p>Password - $password (Kindly change this as soon as you login) </p>
 <p>Pin - $pin (Only used when transferring points to your loyalty beneficiaries) </p>
 <p>Journey with us, it’s going to be an amazing ride.</p>
-<p>Have a question? We are here to help. Contact us today on 0708 062 5000, or send an email to <a href="mailto:firstcontact@firstbanknigeria.com" style="text-decoration:none;">firstcontact.complaints@firstbanknigeria.com</a>. You can also access the FAQs on the Loyalty Portal site. </p>
+<p>Have a question? We are here to help. Contact us today on 0708 062 5000, or send an email to <a href="mailto:firstcontact@firstbanknigeria.com" style="text-decoration:none;">firstcontact@firstbanknigeria.com</a>. You can also access the FAQs on the Loyalty Portal site. </p>
 <p>Thank you for trusting us enough to put You First</p>
 
      </div>
-
+     
         </section>
 
         <footer id="redeem-template-footer">
-            <div id="disclaimer-body">
+            <div id="disclaimer-body"> 
                 <img src="https://loyaltysolutionsnigeria.com/fbn_templates/images/footer_key.png" id="footer_img" style="margin-right: 20px;">
-                <p>Please note that FirstBank would never request for your account details or credentials such as membership number, BVN, PIN or password via email, telephone, or otherwise.
+                <p>Please note that FirstBank would never request for your account details or credentials such as membership number, BVN, PIN or password via email, telephone, or otherwise. 
                     Should you receive any request for such information, please disregard it and report to the bank.
                 </p>
             </div><br><br>
@@ -477,7 +478,7 @@ class EmailDispatcher{
                 <a href="https://instagram.com/firstbanknigeria/"><img src="https://loyaltysolutionsnigeria.com/fbn_templates/images/instagram.png" alt="instagram-logo" srcset=""></a>
                 <a href="https://www.linkedin.com/company/first-bank-of-nigeria-ltd/"><img src="https://loyaltysolutionsnigeria.com/fbn_templates/images/linkedln.png" alt="linkedin-logo" srcset=""></a>
                 <a href="https://twitter.com/firstbankngr"><img src="https://loyaltysolutionsnigeria.com/fbn_templates/images/twitter.png" alt="twitter-logo" srcset=""></a>
-
+                              
             </div><br>
             <p style="display:flex; margin-right: 100px; margin-left: 100px;">
                 For enquiries on FirstBank products and services, please call on:
@@ -503,7 +504,7 @@ class EmailDispatcher{
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-
+         
         <style>
         *{
             / font-family: "Open Sans", sans-serif, serif; /
@@ -511,7 +512,7 @@ class EmailDispatcher{
         }
 
         body{
-             max-width: 600px;
+             max-width: 600px; 
             / text-align: center; /
             / padding: au /
         }
@@ -519,7 +520,7 @@ class EmailDispatcher{
             max-width: 100% !important; margin: 0px auto;
         }
         div.preheader{
-
+         
             padding: 0px;
             height: 15px;
         }
@@ -531,7 +532,7 @@ class EmailDispatcher{
         }
         .tagline{
             position: absolute;
-            right: 30px;
+            right: 30px; 
              top: 20px;
             color: gray;
             font-size: 15px;
@@ -546,19 +547,19 @@ class EmailDispatcher{
         div{
             padding: 15px;
         }
-
+        
         #header{
             text-align: center;
         }
-
+        
         .img-banner{
             /* width: 100%;
-
+            
             height: 100%; */
             max-width: 600px;
         }
 
-
+        
         section, main, header, footer{
             / max-width: 600px; /
         }
@@ -598,7 +599,7 @@ class EmailDispatcher{
             width: fit-content;
           / display: flex; /
            / flex-direction: row; /
-
+           
         }
         img{
             max-width: 100% !important;
@@ -630,7 +631,7 @@ class EmailDispatcher{
              height:25px;
             }
         }
-
+        
         .items{
                     max-width: 600px !important;
                 }
@@ -653,35 +654,35 @@ class EmailDispatcher{
                     height: 252px;
                 }
                 .item-description{
-
+        
                     font-family: "Open Sans";
                     font-style: normal;
                     font-weight: 400;
                     font-size: 20px;
                     line-height: 140.62%;
-
+        
                     / or 28px /
-
+        
                     / almost black /
                     color: #1C1E23;
-
+        
                     / Inside auto layout /
                     flex: none;
                     order: 1;
                     flex-grow: 0;
                 }
                 .item-point{
-
+        
                     font-family: "Outfit" !important;
                     font-style: normal;
                     font-weight: 600;
                     font-size: 20px;
                     line-height: 140.62%;
-
+        
                     / or 28px /
-
+        
                     color: #000000;
-
+        
                     / Inside auto layout /
                     flex: none;
                     order: 2;
@@ -696,13 +697,13 @@ class EmailDispatcher{
                     background: #4FC143;
                     border-radius: 5px;
                     color: white;
-
+        
                     / Inside auto layout /
                     flex: none;
                     order: 0;
                     flex-grow: 0;
                 }
-
+        
                 @media (max-width: 500px) {
                     .item-list{
                         flex-direction: column;
@@ -710,74 +711,74 @@ class EmailDispatcher{
                 }
     </style>
 
-
+        
         </head>
         <body>
         <div class="wrapper" style="">
             <table>
             <tr>
-
+          
             <header>
-
+        
                 <div class="preheader">
                     <div class="green-curve"></div>
                 </div>
-
+             
                 <div class="logo">
                     <img class="logo-img" src="https://loyaltysolutionsnigeria.com/email_templates/images/Logo2.png" alt="firstbank Logo" >
                 </div>
             </header>
-
+         
             </table>
-
+        
             <main>
-
+                
                 <!-- img banner -->
                 <section class="img-banner">
                          <img src="https://loyaltysolutionsnigeria.com/email_templates/images/points-accumulation.png" class="banner" alt="" >
                 </section>
-
-        <section class="message-content">
+        
+        <section class="message-content"> 
             <p><strong>Dear $first_name,</strong></p>
             <p>Thank you for banking with us.</p>
             <p>You just earned <strong>$points_earned</strong> Points from transacting with your  <b>$product_name</b> and your current loyalty points balance is <strong>$current_balance</strong> points. </p>
-
+            
             <p>Using your earned points, you can redeem items such as airtime, movie tickets, shopping vouchers, electronic gadgets, airline tickets and so much more, on the First Rewards Mart.</p>
-
+            
             <p>To accumulate more points on the First Rewards Loyalty Programme, simply carry out your transactions (bill payments, airtime purchase, funds transfer, etc.) on any of our alternative banking channels such as the Firstbank Mobile App, Firstbank ATMs, Firstbank POSs, Firstbank *674# (Instant Banking), etc.</p>
-
+            
             <p>You can access your Loyalty Account here  <a href="$link">here</a> by logging in with your Membership ID and Password. To reset your password, kindly follow the password reset link on the portal and your details will be sent to your registered email address. </p>
-
+            
            <!-- <p>Membership ID: <strong>$Membership_ID</strong><br>
 Password: If you have forgotten your password, click on Reset password on the log-in page and this will be sent to you. </p><p>
-Alternatively, you can access your loyalty account via your Mobile and Online Banking Applications.
+Alternatively, you can access your loyalty account via your Mobile and Online Banking Applications.  
 </p> -->
             <p>
               Alternatively, you can access your loyalty account via the Firstbank Online Banking Application.
             </p>
-
+            
             <section class="items">
-
-                <p>For enquiries, please call our interactive Contact Centre to speak to any of our agents on 070034335489 or 09087989069. You can also send an email to  <a href="mailto:true.serve@firstbank.ng">true.serve@firstbank.ng</a>
+            
+                <p>For enquiries, please call our interactive Contact Centre to speak to any of our agents on 070034335489 or 09087989069. You can also send an email to  <a href="mailto:true.serve@firstbank.ng">true.serve@firstbank.ng</a> 
                 .</p>
                 <p>If you are calling from outside Nigeria, please dial +2349087989069.</p>
-
+            
             <p>
         Thank you for choosing First Bank Plc.</p>
         </section>
-
-
+        
+        
         </main>
         <footer class="footer">
-                <!-- <div class="logo">
+                <!-- <div class="logo"> 
                     <a href="#"><img src="#" alt="firstbank Logo"></a>
                 </div> -->
-                <div class="disclaimer-body">
+                <div class="disclaimer-body"> 
                     <p class="disclaimer-msg" style="font-size: small;"><strong>Please note that First Bank would NEVER request for your account information or an update of your banking details (including BVN and REWARD POINT) via email or telephone. Please DISREGARD and DELETE such emails and SMS as they are  messages intended to defraud you. In addition, NEVER generate a token or passcode for anyone via telephone, email or internet chat.</strong></p>
                 </div>
                 <div>
                 <hr style="opacity: 0.2; border: 1px solid #E2E8F0;">
-
+        
                 </div>
                 <div class="rowss">
                     <div class="socials">
@@ -791,11 +792,11 @@ Alternatively, you can access your loyalty account via your Mobile and Online Ba
                         <a href="www.firstbank.com" style="color:white !important; text-decoration: none">www.firstbank.com</a>
                     </div>
                 </div>
-
-
+                
+        
         </footer>
-
-
+        
+        
         </body>
         </html>';
         return self::replaceVariables($placeholders, $values, $str);
@@ -805,18 +806,18 @@ Alternatively, you can access your loyalty account via your Mobile and Online Ba
         $str = '<!DOCTYPE html>
         <html>
         <body>
-
+        
         <table>
         <tr>
         <td>Hello First Bank,</td>
         </tr>
         </table>
         <br>
-
+        
         <table>
         <tr>
         <td>A total of $count transactions were uploaded to the middleware on $created_at for transactions done between $date_from & $date_to, kindly see the status report of the transactions.</td>
-
+        
         </tr>
         </table>
         <div style="margin-top:30px">
@@ -829,17 +830,17 @@ Alternatively, you can access your loyalty account via your Mobile and Online Ba
         </tr>
         <tr>
         <td>Failed migrations: $failed</td>
-
+        
         </tr>
         </div>
         </table>
         <br>
         <table>
         <td>The list of all failed transactions can be found in the attachment. <br>
-
-
+        
+        
         </td>
-
+        
         </table><br>
         Regards.
         </body>
@@ -847,14 +848,14 @@ Alternatively, you can access your loyalty account via your Mobile and Online Ba
         ';
         return self::replaceVariables($placeholders, $values, $str);
     }
-
+    
     public static function replaceVariables($placeholders, $values, $str){
         $new_str = str_ireplace($placeholders, $values, $str);
-        return $new_str;
+        return $new_str;   
     }
 
     public static function testCurl($data){
-
+        
         $curl = curl_init();
         // $key = "Ocp-Apim-Subscription-Key"; $value = "a04d83e1f9844621842db0ad7bf9c480";
         // $headers = array(
